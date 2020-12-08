@@ -55,10 +55,9 @@ def fix_live_metadata(m) =
 end
 
 # Live Broadcasting
-live = audio_to_stereo(input.harbor("/", id = "live_streamer_input", port = 8005,  user = get_var("LIQUIDSOAP_DJ_USERNAME","dj"), password = get_var("LIQUIDSOAP_DJ_PASSWORD","dj"), metadata_charset = "UTF-8"))
+live = audio_to_stereo(input.harbor("/", id = "live_streamer_input", port = 8005,  user = get_var("LIQUIDSOAP_DJ_USERNAME","dj"), password = get_var("LIQUIDSOAP_DJ_PASSWORD","dj"), metadata_charset = "UTF-8", max = 30.0))
 # Add metadata if missing to live stream
 live = map_metadata(fix_live_metadata, live)
-ignore(output.dummy(live, fallible=true))
 
 radio = fallback(track_sensitive=false,transition_length=11.0,transitions=[to_live(jingle),from_live(jingle)],[live,mopidy_stream])
 
