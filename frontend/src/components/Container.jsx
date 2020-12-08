@@ -15,6 +15,7 @@ import {
 import { FaSun, FaMoon } from "react-icons/fa";
 import { ModalProvider, VisualiserProvider } from "./Contexts";
 import Visualisation from "./Visualisation";
+import Calendar from "@ericz1803/react-google-calendar";
 
 const Container = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -23,6 +24,18 @@ const Container = () => {
   const [modal, setModal] = useState();
   const [showVisualiser, setShowVisualiser] = useState(false);
   const [player, setPlayer] = useState();
+
+  function Schedule() {
+
+    const CALENDAR_ID = "simplybusiness.co.uk_sc96d773ilr7t1sepq5lotsmo0@group.calendar.google.com";
+    const API_KEY = "algo";
+
+    return (
+      <div>
+        <Calendar apiKey={API_KEY} calendarId={CALENDAR_ID} />
+      </div>
+    )
+  }
 
   const EmbedCode = () => {
     const [show, setShow] = React.useState(false);
@@ -91,6 +104,7 @@ const Container = () => {
               <ModalProvider value={{ modal, setModal }}>
                 <Player />
               </ModalProvider>
+              <Schedule />
               <Links />
               <Button
                 mt={2}
