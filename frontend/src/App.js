@@ -1,22 +1,24 @@
 import React from "react";
 import "./App.css";
-import { ChakraProvider, CSSReset } from "@chakra-ui/core";
+import { extendTheme, ChakraProvider, CSSReset } from "@chakra-ui/react";
 import Container from "./components/Container";
 import PlayerEmbed from "./components/PlayerEmbed";
-import chakraTheme from "@chakra-ui/theme";
 
-let theme = { ...chakraTheme };
-theme.config.initialColorMode = "dark";
-theme.config.useSystemColorMode = true;
+const config = {
+  useSystemColorMode: true,
+  initialColorMode: "dark",
+};
+
+const customTheme = extendTheme({ config });
 
 function App() {
   const path = window.location.pathname;
   return (
-    <div className='App'>
+    <div className="App">
       {path === "/embed" ? (
         <PlayerEmbed />
       ) : (
-        <ChakraProvider theme={theme}>
+        <ChakraProvider theme={customTheme}>
           <CSSReset />
           <Container />
         </ChakraProvider>

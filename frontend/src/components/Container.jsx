@@ -11,7 +11,7 @@ import {
   Collapse,
   Text,
   Link,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { ModalProvider, VisualiserProvider } from "./Contexts";
 import Visualisation from "./Visualisation";
@@ -30,7 +30,7 @@ const Container = () => {
 
     return (
       <Box mt="auto" pt={2} mb={3} mx={2}>
-        <Collapse isOpen={show}>
+        <Collapse in={show}>
           <Code my={2} p={2} overflow="auto">
             {`<iframe src = '${window.location.protocol}//${window.location.host}/embed' frameborder = '0' allowtransparency = 'true' style = 'width: 100%; min-height: 150px; border: 0;'></iframe>`}
           </Code>
@@ -53,7 +53,7 @@ const Container = () => {
         >
           {player && (
             <Box pos="absolute" bottom={0} left={0} pointerEvents="none">
-              <Collapse isOpen={showVisualiser}>
+              <Collapse in={showVisualiser}>
                 <Visualisation audio={player.current} />
               </Collapse>
             </Box>
