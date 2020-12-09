@@ -50,6 +50,7 @@ services:
       - "-o spotify/client_secret=${SPOTIFY_CLIENT_SECRET}"
     volumes:
       - ./mopidy/mopidy.conf:/config/mopidy.conf
+      - /home/ubuntu/mopidy_media/:/media
     depends_on:
       - liquidsoap
     labels:
