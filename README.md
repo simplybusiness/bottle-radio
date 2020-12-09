@@ -1,4 +1,4 @@
-# Bottle Radio
+# Simply Bangers station
 
 ![Bottle radio](bottle_radio.png)
 
