@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import Player from "./Player";
 import Links from "./Links";
 import {
@@ -11,6 +11,7 @@ import {
   Collapse,
   Text,
   Link,
+  Heading,
 } from "@chakra-ui/react";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { ModalProvider, VisualiserProvider } from "./Contexts";
@@ -23,6 +24,48 @@ const Container = () => {
   const [modal, setModal] = useState();
   const [showVisualiser, setShowVisualiser] = useState(false);
   const [player, setPlayer] = useState();
+  const [events, setEvents] = useState();
+  const variables = window._env_ ? window._env_ : { REACT_GCAL_API_KEY: "" };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const now = new Date().toISOString();
+      const response = await fetch(
+        `https://www.googleapis.com/calendar/v3/calendars/simply.bangers@simplybusiness.co.uk/events?key=${variables.REACT_GCAL_API_KEY}&orderBy=startTime&singleEvents=True&maxResults=5&timeMin=${now}`
+      );
+      const json = await response.json();
+      setEvents(json.items);
+    };
+    fetchData();
+  }, []);
+
+  const Schedule = () => {
+    const eventList = [];
+    events.forEach((event) => {
+      if (event.summary) {
+        eventList.push([
+          event.summary,
+          event.start.dateTime,
+          event.end.dateTime,
+        ]);
+      }
+    });
+    return (
+      <Box pb={3}>
+        <Heading size="sm" pb={3}>
+          Schedule
+        </Heading>
+        {eventList.map((event) => (
+          <Box>
+            <Box fontWeight="bold">{event[0]}</Box>
+            <Box>
+              {event[1]} - {event[2]}
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    );
+  };
 
   const EmbedCode = () => {
     const [show, setShow] = React.useState(false);
@@ -91,6 +134,7 @@ const Container = () => {
               <ModalProvider value={{ modal, setModal }}>
                 <Player />
               </ModalProvider>
+              {events ? <Schedule /> : null}
               <Links />
               <Button
                 mt={2}
