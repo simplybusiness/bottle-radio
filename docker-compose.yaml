@@ -81,6 +81,10 @@ services:
       - "traefik.tcp.routers.liquidsoap.rule=HostSNI(`*`)"
       - "traefik.tcp.routers.liquidsoap.entryPoints=streaming"
       - "traefik.tcp.services.liquidsoap.loadbalancer.server.port=8005"
+      - "traefik.http.routers.liquidsoap_https.rule=Host(`dj.${DOMAIN}`)"
+      - "traefik.http.routers.liquidsoap_https.tls=true"
+      - "traefik.http.routers.liquidsoap_https.tls.certresolver=resolver"
+      - "traefik.http.services.liquidsoap_https.loadbalancer.server.port=8005"
 
   icecast:
     image: moul/icecast
